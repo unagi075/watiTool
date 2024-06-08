@@ -1,1 +1,67 @@
-<H2>test!!</H2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Button Click Counter</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+        .button {
+            padding: 10px;
+            border: 1px solid #000;
+            cursor: pointer;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="button" onclick="increment('count1')">14</div>
+            <div id="count1">1</div>
+            <div class="button" onclick="increment('count2')">▲</div>
+            <div id="count2">▼</div>
+        </div>
+        <div class="row">
+            <div class="button" onclick="increment('count3')">16</div>
+            <div id="count3">0</div>
+            <div class="button" onclick="increment('count4')">▲</div>
+            <div id="count4">▼</div>
+        </div>
+        <div class="row">
+            <div class="button" onclick="increment('count5')">18</div>
+            <div id="count5">0</div>
+            <div class="button" onclick="increment('count6')">▲</div>
+            <div id="count6">▼</div>
+        </div>
+        <div class="row">
+            <div class="button" onclick="increment('count7')">20</div>
+            <div id="count7">0</div>
+            <div class="button" onclick="increment('count8')">▲</div>
+            <div id="count8">▼</div>
+        </div>
+        <div class="row">
+            <div class="button" onclick="increment('count9')">12</div>
+            <div id="count9">0</div>
+            <div class="button" onclick="increment('count10')">▲</div>
+            <div id="count10">▼</div>
+        </div>
+    </div>
+
+    <script>
+        function increment(id) {
+            var element = document.getElementById(id);
+            var value = parseInt(element.innerText, 10);
+            element.innerText = value + 1;
+        }
+    </script>
+</body>
+</html>
