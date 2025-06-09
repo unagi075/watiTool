@@ -1,1 +1,58 @@
-test
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>ビットフライヤー ETH 現在価格</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        #price {
+            font-size: 2em;
+            margin-top: 20px;
+            color: #008000;
+        }
+    </style>
+</head>
+<body>
+    <h1>ビットフライヤー ETH 現在価格</h1>
+
+    <label for="apiKey">APIキー:</label>
+    <input type="text" id="apiKey" placeholder="ここにAPIキーを入力 (不要)">
+    <button id="startButton">設定</button>
+
+    <div id="price">価格: -- 円</div>
+
+    <script>
+        let timer = null;
+
+        document.getElementById('startButton').addEventListener('click', function() {
+            // 既にタイマーが動いていたら止める
+            if (timer) {
+                clearInterval(timer);
+            }
+
+            // 3秒ごとに価格取得
+            timer = setInterval(fetchPrice, 3000);
+
+            // 初回すぐ取得
+            fetchPrice();
+        });
+
+        function fetchPrice() {
+            fetch('https://api.bitflyer.com/v1/ticker?product_code=ETH_JPY')
+                .then(response => response.json())
+                .then(data => {
+                    const price = data.ltp; // LTP = 最新取引価格
+                    document.getElementById('price').textContent = `価格: ${price.toLocaleString()} 円`;
+                })
+                .catch(error => {
+                    console.error('価格取得エラー:', error);
+                    document.getElementById('price').textContent = '価格取得エラー';
+                });
+        }
+    </script>
+</body>
+</html>
