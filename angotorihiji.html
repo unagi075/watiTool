@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ETH 現在価格（Coingecko版）</title>
+    <title>bitFlyer ETH 現在価格（CORS Proxy版）</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-    <h1>ETH 現在価格（JPY）ver0.02</h1>
+    <h1>bitFlyer ETH 現在価格（JPY）ver0.03</h1>
 
     <label for="apiKey">APIキー:</label>
     <input type="text" id="apiKey" placeholder="ここにAPIキーを入力 (不要)">
@@ -29,20 +29,20 @@
         let timer = null;
 
         document.getElementById('startButton').addEventListener('click', function() {
-            // 既にタイマーが動いていたら止める
             if (timer) {
                 clearInterval(timer);
             }
 
-            // 3秒ごとに価格取得
             timer = setInterval(fetchPrice, 3000);
 
-            // 初回すぐ取得
             fetchPrice();
         });
 
         function fetchPrice() {
-            fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=jpy')
+            const targetUrl = encodeURIComponent('https://api.bitflyer.com/v1/ticker?product_code=ETH_JPY');
+            const proxyUrl = `https://api.allorigins.win/raw?url=${targetUrl}`;
+
+            fetch(proxyUrl)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTPエラー: ${response.status}`);
@@ -50,7 +50,7 @@
                     return response.json();
                 })
                 .then(data => {
-                    const price = data.ethereum.jpy;
+                    const price = data.ltp;
                     document.getElementById('price').textContent = `価格: ${price.toLocaleString()} 円`;
                 })
                 .catch(error => {
