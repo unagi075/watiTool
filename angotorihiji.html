@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>ビットフライヤー ETH 現在価格</title>
+    <title>ETH 現在価格（Coingecko版）</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-    <h1>ビットフライヤー ETH 現在価格　ver0.01</h1>
+    <h1>ETH 現在価格（JPY）ver0.02</h1>
 
     <label for="apiKey">APIキー:</label>
     <input type="text" id="apiKey" placeholder="ここにAPIキーを入力 (不要)">
@@ -42,7 +42,7 @@
         });
 
         function fetchPrice() {
-            fetch('https://corsproxy.io/?https://api.bitflyer.com/v1/ticker?product_code=ETH_JPY')
+            fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=jpy')
                 .then(response => {
                     if (!response.ok) {
                         throw new Error(`HTTPエラー: ${response.status}`);
@@ -50,7 +50,7 @@
                     return response.json();
                 })
                 .then(data => {
-                    const price = data.ltp;
+                    const price = data.ethereum.jpy;
                     document.getElementById('price').textContent = `価格: ${price.toLocaleString()} 円`;
                 })
                 .catch(error => {
