@@ -17,7 +17,7 @@
     </style>
 </head>
 <body>
-    <h1>ビットフライヤー ETH 現在価格</h1>
+    <h1>ビットフライヤー ETH 現在価格　ver0.01</h1>
 
     <label for="apiKey">APIキー:</label>
     <input type="text" id="apiKey" placeholder="ここにAPIキーを入力 (不要)">
@@ -42,10 +42,15 @@
         });
 
         function fetchPrice() {
-            fetch('https://api.bitflyer.com/v1/ticker?product_code=ETH_JPY')
-                .then(response => response.json())
+            fetch('https://corsproxy.io/?https://api.bitflyer.com/v1/ticker?product_code=ETH_JPY')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTPエラー: ${response.status}`);
+                    }
+                    return response.json();
+                })
                 .then(data => {
-                    const price = data.ltp; // LTP = 最新取引価格
+                    const price = data.ltp;
                     document.getElementById('price').textContent = `価格: ${price.toLocaleString()} 円`;
                 })
                 .catch(error => {
